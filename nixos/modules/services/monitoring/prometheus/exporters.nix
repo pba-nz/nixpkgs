@@ -35,6 +35,7 @@ let
     "node"
     "postfix"
     "postgres"
+    "redis"
     "rspamd"
     "snmp"
     "surfboard"
