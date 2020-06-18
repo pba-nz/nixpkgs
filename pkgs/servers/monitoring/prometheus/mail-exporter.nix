@@ -1,4 +1,4 @@
-{ stdenv, buildGoPackage, fetchFromGitHub }:
+{ stdenv, buildGoPackage, fetchFromGitHub, installShellFiles, nixosTests }:
 
 buildGoPackage {
   pname = "mailexporter";
@@ -19,6 +19,8 @@ buildGoPackage {
     install -D -m 0444 -t $bin/share/man/man1 $src/man/mailexporter.1
     install -D -m 0444 -t $bin/share/man/man5 $src/man/mailexporter.conf.5
   '';
+
+  passthru.tests = { inherit (nixosTests.prometheus-exporters) mail; };
 
   meta = with stdenv.lib; {
     description = "Export Prometheus-style metrics about mail server functionality";

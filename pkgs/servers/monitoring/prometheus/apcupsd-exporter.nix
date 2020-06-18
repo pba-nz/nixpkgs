@@ -1,4 +1,4 @@
-{ stdenv, buildGoPackage, fetchFromGitHub }:
+{ stdenv, buildGoModule, fetchFromGitHub, nixosTests }:
 
 buildGoPackage rec {
   pname = "apcupsd-exporter";
@@ -16,6 +16,8 @@ buildGoPackage rec {
   };
 
   doCheck = true;
+
+  passthru.tests = { inherit (nixosTests.prometheus-exporters) apcupsd; };
 
   meta = with stdenv.lib; {
     description = "Provides a Prometheus exporter for the apcupsd Network Information Server (NIS)";
