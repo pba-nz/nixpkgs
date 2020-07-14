@@ -15300,9 +15300,13 @@ in
 
   grafana = callPackage ../servers/monitoring/grafana { };
 
+  grafana-json-datasource-plugin = callPackage ../servers/monitoring/grafana/grafana-json-datasource.nix { };
+
   grafana-loki = callPackage ../servers/monitoring/loki { };
 
   grafana_reporter = callPackage ../servers/monitoring/grafana-reporter { };
+
+  grafana-toolkit = callPackage ../servers/monitoring/grafana/grafana-toolkit.nix {  };
 
   gobetween = callPackage ../servers/gobetween {
     buildGoModule = buildGo112Module;

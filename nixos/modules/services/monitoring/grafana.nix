@@ -81,7 +81,7 @@ let
         description = "Name of the datasource. Required";
       };
       type = mkOption {
-        type = types.enum ["graphite" "prometheus" "cloudwatch" "elasticsearch" "influxdb" "opentsdb" "mysql" "mssql" "postgres" "loki"];
+        type = types.enum ["graphite" "prometheus" "cloudwatch" "elasticsearch" "influxdb" "opentsdb" "mysql" "mssql" "postgres" "loki" "simpod-json-datasource"];  # TODO: Let plugins add to this enum
         description = "Datasource type. Required";
       };
       access = mkOption {
@@ -259,6 +259,12 @@ in {
       default = pkgs.grafana;
       defaultText = "pkgs.grafana";
       type = types.package;
+    };
+
+    plugins = mkOption {
+      description = "Plugins to install";
+      default = [];
+      type = types.listOf types.path;
     };
 
     dataDir = mkOption {
@@ -512,6 +518,8 @@ in {
       }
     ];
 
+    # Symlink plugins in plugin directory
+
     systemd.services.grafana = {
       description = "Grafana Service Daemon";
       wantedBy = ["multi-user.target"];
@@ -544,7 +552,10 @@ in {
       preStart = ''
         ln -fs ${cfg.package}/share/grafana/conf ${cfg.dataDir}
         ln -fs ${cfg.package}/share/grafana/tools ${cfg.dataDir}
-      '';
+        mkdir -p ${cfg.dataDir}/plugins
+      '' + (concatStringsSep
+        "\n"
+        (map (plugin: "ln -fs ${plugin} ${cfg.dataDir}/plugins/") cfg.plugins));
     };
 
     users.users.grafana = {
