@@ -2,7 +2,7 @@
 
 buildGoModule rec {
   pname = "grafana";
-  version = "7.0.4";
+  version = "7.1.0";
 
   # goPackagePath = "github.com/grafana/grafana";
 
@@ -12,15 +12,15 @@ buildGoModule rec {
     rev = "v${version}";
     owner = "grafana";
     repo = "grafana";
-    sha256 = "16vdbxq9vhv71jjk689xx0nn3qr4s5ybzbp41dm09pppvxzibpg7";
+    sha256 = "15yniksm6vppd7d7y4xcnbzr26snxi3rz0vdmr35lyc5s8d3xss5";
   };
 
   srcStatic = fetchurl {
     url = "https://dl.grafana.com/oss/release/grafana-${version}.linux-amd64.tar.gz";
-    sha256 = "1362rwmpv1y32w5m1fd9vqffs32244f0h7d5jm5cigiq2l7ix7n2";
+    sha256 = "13kiwp8z5c0ds57mw8dfrq1q9g24svv4pnn8v8cija0bczinqvab";
   };
 
-  modSha256 = null; #"00xvpxhnvxdf030978paywl794mlmgqzd94b64hh67946acnbjcl";
+  modSha256 = "0qw41vx6q3cr8nrfv5rb7j8q3k7kfds93s6q2mjxc1l4h3mkwdvl";
 
   postPatch = ''
     substituteInPlace pkg/cmd/grafana-server/main.go \
@@ -31,8 +31,8 @@ buildGoModule rec {
 
   postInstall = ''
     tar -xvf $srcStatic
-    mkdir -p $bin/share/grafana
-    mv grafana-*/{public,conf,tools} $bin/share/grafana/
+    mkdir -p $out/share/grafana
+    mv grafana-*/{public,conf,tools} $out/share/grafana/
   '';
 
   meta = with lib; {
