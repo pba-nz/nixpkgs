@@ -44,8 +44,8 @@ stdenv.mkDerivation {
   phases = ["unpackPhase" "installPhase"];
 
   src = fetchurl {
-    url = "https://github.com/simPod/grafana-json-datasource/archive/v0.2.0.tar.gz";
-    sha256 = "0b7p4x5d3w4vzm96hh572yqyri3iqr148gnp85sxh05dmdldavnd";
+    url = "https://github.com/simPod/grafana-json-datasource/archive/v0.2.2.tar.gz";
+    sha256 = "1vkiaf64s3iq0x70bxc5ah1wchxzg5irydxpra8f7n9gy5n46b2i";
   };
 
   installPhase = ''
